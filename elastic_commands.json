@@ -1,0 +1,123 @@
+"_SEARCH IN ELASTIC INDEX_Understanding Elasticsearch"
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/shakespeare/_search?pretty' -d '
+{
+    "query" : {
+        "match_phrase" : {
+            "text_entry" : "to be or not to be" 
+            }
+        }
+}'
+
+
+"LOAD FILE IN ELASTIC"
+
+curl -H "Content-Type: application/json" -XPOST '127.0.0.1:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
+
+
+"MAPPING INDEX ELASTIC SEARCH"
+
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare --data-binary @shakes-mapping.json 
+
+
+"PRAGMATIC DEFINITION: USING HTTP REQUESTS TO COMMUNICATE WITH WEB SERVICES"
+
+GET --> Requests retrieve information
+PUT --> Requests insert or replace new information
+DELETE --> Requests delete information
+
+
+
+"LOGICAL CONCEPTS OF ELASTICSEARCH"
+
+DOCUMENTS --> ARE THE THINGS YOU'RE SEARCHING FOR
+
+INDICES --> AN INDEX POWERS SEARCH INTO ALL DOCUMENTS WTHIN A COLLECTION OF TYPES
+THEY CONTAIN INVERTED INDICES
+
+
+"USING INDICES"
+
+RESTFUL API
+
+Elasticsearch fundamentally works via HTTP requests and JSON data.
+
+CLIENT APIS
+
+Most languages have specialized Elasticsearch libraries to make it even easier.
+
+ANALYTIC TOOLS
+
+Web-based graphical UIs such as Kibana
+
+"MAPPING ANS INDEXING"
+
+
+"Download MovieLens"
+http://media.sundog-soft.com/es/ml-latest-small.zip
+
+
+"WHAT IS MAPPING"
+
+"A mapping is a schema definition. elasticsearch has reasonable defaults, but 
+sometims you need to customize them"
+
+"Commum mappings"
+
+--> FIELD TYPES : string, byte, short, integer, long
+
+"properties": {
+    "user_id" : {
+        "type" : "long"
+    }
+}
+
+
+--> FIELD INDEX : Do you want this field indexed for full-text search?
+
+"properties": {
+    "genre" : {
+        "index" : "not_analyzed"
+    }
+}
+
+
+--> FIELD ANALYZER : Define you tokenizer and toker filter
+
+"properties": {
+    "description" : {
+        "analyzer" : "english"
+    }
+}
+
+
+
+"INSERT"
+
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies -d '
+{
+    "mappings": {
+        "properties": {
+            "year": {
+                "type": "date"
+                } 
+            }
+        }
+}'
+
+"INSERT A BUNCH OF MOVIES WITH BULK KEY"
+
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
+
+"GET"
+
+curl -H "Content-Type: application/json" -XGET 127.0.0.1:9200/_mapping
+
+curl -H "Content-Type: application/json" -XGET 127.0.0.1:9200/movies/_search?pretty
+
+curl -H "Content-Type: application/json" -XPOST 127.0.0.1:9200/movies/_doc/109487 -d '
+{
+    "genre": ["IMAX", "Sci-Fi"],
+    "title": "Interstellar",
+    "year": 2014
+}'
