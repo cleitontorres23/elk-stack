@@ -427,7 +427,14 @@ curl -H "Content-Type: application/json" -XPUT '127.0.0.1:9200/movies&pretty' -d
                     "min_gram": 1,
                     "max_gram": 20
                 }
+            },
+        "analyzer": {
+            "auto_complete": {
+                "type": "custom",
+                "tokenizer": "standard",
+                "filter": ["lowecase", "autocomplete_filter"]
             }
+        }
         }
     }
 }'
