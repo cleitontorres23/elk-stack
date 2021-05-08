@@ -1,6 +1,6 @@
 1.
 
-curl --silent --request POST 'http://localhost:9200/movies/_analyze?pretty' \
+curl -H "Content-Type: application/json"  --silent --request POST 'http://localhost:9200/movies/_analyze?pretty' \
 --data-raw '{
    "tokenizer" : "standard",
    "filter": [{"type":"edge_ngram", "min_gram": 1, "max_gram": 4}],
@@ -10,7 +10,7 @@ curl --silent --request POST 'http://localhost:9200/movies/_analyze?pretty' \
 
 2.
 
-curl --request PUT 'http://localhost:9200/autocomplete' \
+curl -H "Content-Type: application/json" --request PUT 'http://localhost:9200/autocomplete' \
 -d '{
    "mappings": {
        "properties": {

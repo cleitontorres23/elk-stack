@@ -16,6 +16,8 @@ curl -H "Content-Type: application/json" -XPOST '127.0.0.1:9200/shakespeare/_bul
 
 curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare/_bulk?pretty --data-binary @movies.json
 
+curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare/_bulk?pretty --data-binary @moremovies.json
+
 
 "MAPPING INDEX ELASTIC SEARCH"
 
@@ -438,3 +440,61 @@ curl -H "Content-Type: application/json" -XPUT '127.0.0.1:9200/movies&pretty' -d
         }
     }
 }'
+
+
+"SEARCH AS YOU TYPE"
+
+"sayt.txt"
+
+
+"IMPORTING DATA WITH SCRIPT"
+
+"script is moviestojson.py"
+
+curl -H "Content-Type: application/json" -XGET "127.0.0.1:9200/movies/_search?q=mary%20poppins&pretty"
+
+
+
+"IMPORTING DATA CLIENT LIBRARIES"
+
+curl -H "Content-Type: application/json" -XGET "127.0.0.1:9200/ratings/_search?pretty
+
+
+
+
+"LOGSTASH"
+curl -H "Content-Type: application/json" -XGET "127.0.0.1:9200/_cat/indices?v"
+
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/logstash-2019.05.07-100836/_search?pretty'
+
+
+"IMPORTING JSON FILE LOGSTASH"
+
+
+"see /etc/logstash/conf.d"
+curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/json-splip/_search?pretty'
+
+"PARSING AND FILTERING LOGSTASH WITH GROK"
+
+%{PATTERN:identifier}
+
+--> email Grok pattern sample
+
+%{EMAILADDRESS:client_email}
+
+
+%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:logLevel} %{GREEDYDATA:logMessage}
+
+Grok debug tool
+
+grokdebug.herokuapp.com/
+
+curl -H "Content-Type: application/json" -XGET "http://localhost:9200/demo_grok/_search?pretty=true" -d ' 
+{
+    "_source": [
+        "logLevel",
+        "time",
+        "logMessage"]
+    }'
+
+
