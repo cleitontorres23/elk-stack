@@ -489,12 +489,20 @@ Grok debug tool
 
 grokdebug.herokuapp.com/
 
-curl -H "Content-Type: application/json" -XGET "http://localhost:9200/demo_grok/_search?pretty=true" -d ' 
+curl -H "Content-Type: application/json" -XGET "http://localhost:9200/demo-grok/_search?pretty=true" -d ' 
 {
     "_source": [
         "logLevel",
         "time",
         "logMessage"]
     }'
+
+
+"SYSLOG"
+
+/etc/rsyslog.d/50-default.conf
+"All messages @@ = over TCP connections"
+*.*                             @@127.0.0.1:10514
+
 
 
